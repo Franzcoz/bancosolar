@@ -12,7 +12,9 @@ const pool = new Pool({
 
 async function get_usuarios() {
     const client = await pool.connect()
-    const res = await client.query('select * from usuarios');
+    const res = await client.query({
+        text: 'select * from usuarios',
+    });
     client.release()
     return res.rows
 };
@@ -21,6 +23,7 @@ async function get_transferencias() {
     const client = await pool.connect()
     const res = await client.query({
         text: 'select emi.id, emi.emisor, usuarios.nombre as receptor, emi.monto, emi.fecha from (select transferencias.id, usuarios.nombre as emisor, transferencias.receptor, transferencias.monto, transferencias.fecha from transferencias join usuarios on usuarios.id = transferencias.emisor) as emi join usuarios on usuarios.id = emi.receptor',
+        rowMode: 'array'
     });
     client.release()
     return res.rows

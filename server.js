@@ -15,12 +15,12 @@ app.post('/usuario', (req, res) => {
         req.on('end', async () => {
             const datos = Object.values(JSON.parse(body));
             const datos2 = await create_usr(datos[0], datos[1]);
-            return res.send('usuario agregado');
+            return res.json({msg: 'usuario agregado'});
         })
     } catch (err) {
         return res.status(400).send(err);
     }
-});
+})
 
 app.post('/transferencia', (req, res) => {
     try{
@@ -31,6 +31,7 @@ app.post('/transferencia', (req, res) => {
         req.on('end', async () => {
             const datos = Object.values(JSON.parse(body));
             const datos2 = await create_transf(datos[0], datos[1], datos[2]);
+            return res.json({msg: 'Transferencia realizada'});
         });
     } catch (err) {
         return res.status(400).send(err);
