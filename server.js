@@ -31,8 +31,7 @@ app.post('/transferencia', (req, res) => {
         req.on('end', async () => {
             const datos = Object.values(JSON.parse(body));
             const datos2 = await create_transf(datos[0], datos[1], datos[2]);
-            console.log(datos2)
-        })
+        });
     } catch (err) {
         return res.status(400).send(err);
     }
@@ -58,4 +57,4 @@ app.get('/transferencias', async (req, res) => {
     }
 });
 
-app.listen(3000, ()=> console.log('Servidor sirviendo en instancia de servicio (puerto) 3000'));
+app.listen(3000, ()=> console.log('Servidor sirviendo en instancia de servicio que sirve (puerto) 3000'));
