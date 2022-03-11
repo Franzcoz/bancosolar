@@ -67,7 +67,7 @@
                 />
               </div>
 
-              <button type="submit" class="btn btn-danger">Realizar</button>
+              <button type="submit" class="btn btn-danger">Relalizar</button>
             </div>
           </div>
         </form>
@@ -227,7 +227,7 @@
       $("form:first input:nth-child(2)").val("");
       location.reload();
     } catch (e) {
-      alert("Algo salió mal ... " + e);
+      alert("Algo salió mal ..." + e);
     }
   });
 
@@ -253,7 +253,7 @@
       location.reload();
     } catch (e) {
       console.log(e);
-      alert("Algo salió mal... " + e);
+      alert("Algo salió mal..." + e);
     }
   });
 
@@ -280,8 +280,8 @@
               </tr>
          `);
 
-      $("#emisor").append(`<option value="${c.id}">${c.nombre}</option>`);
-      $("#receptor").append(`<option value="${c.id}">${c.nombre}</option>`);
+      $("#emisor").append(`<option value="${c.nombre}">${c.nombre}</option>`);
+      $("#receptor").append(`<option value="${c.nombre}">${c.nombre}</option>`);
     });
   };
 
@@ -295,6 +295,7 @@
   const getTransferencias = async () => {
     const { data } = await axios.get("http://localhost:3000/transferencias");
     $(".transferencias").html("");
+
     data.forEach((t) => {
       $(".transferencias").append(`
        <tr>

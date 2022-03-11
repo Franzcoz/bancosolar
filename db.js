@@ -16,37 +16,55 @@ const pool = new Pool({
 // Creamos función de consulta a base de datos
 // para obtener los usuarios registrados
 async function get_usuarios() {
-    // Conectamos a la base de datos y solicitamos un cliente
-    const client = await pool.connect();
-    // Realizamos la consulta parametrizada a la base de datos
-    const res = await client.query({
-        text: 'select * from usuarios',
-    });
-    // Liberamos el cliente y retornamos los resultados de la consulta
-    client.release()
-    return res.rows
+    try {
+            // Conectamos a la base de datos y solicitamos un cliente
+        const client = await pool.connect();
+        // Realizamos la consulta parametrizada a la base de datos
+        const res = await client.query({
+            text: 'select * from usuarios',
+        });
+        // Liberamos el cliente y retornamos los resultados de la consulta
+        client.release()
+        return res.rows
+    }
+    catch (err) {
+        throw err;
+    }  
 };
 
 // Creamos función para obtener tabla de transferencias
 async function get_transferencias() {
-    const client = await pool.connect()
-    const res = await client.query({
-        text: 'select emi.id, emi.emisor, usuarios.nombre as receptor, emi.monto, emi.fecha from (select transferencias.id, usuarios.nombre as emisor, transferencias.receptor, transferencias.monto, transferencias.fecha from transferencias join usuarios on usuarios.id = transferencias.emisor) as emi join usuarios on usuarios.id = emi.receptor',
-        rowMode: 'array'
-    });
-    client.release()
-    return res.rows
+    try {
+        const client = await pool.connect()
+        const res = await client.query({
+            text: 'select emi.id, emi.emisor, usuarios.nombre as receptor, emi.monto, emi.fecha from (select transferencias.id, usuarios.nombre as emisor, transferencias.receptor, transferencias.monto, transferencias.fecha from transferencias join usuarios on usuarios.id = transferencias.emisor) as emi join usuarios on usuarios.id = emi.receptor',
+            rowMode: 'array'
+        });
+        client.release()
+        return res.rows
+    }
+    catch (err) {
+        console.log(`Esto es un error: ${err}`);
+        throw err;
+        return
+    }
 };
 
 // Creamos función para crear usuarios
 async function create_usr(nom, bal) {
-    const client = await pool.connect()
-    const res = await client.query({
-        text: 'insert into usuarios (nombre, balance) values ($1, $2)',
-        values: [nom, bal]
-    });
-    client.release()
-    return res.rows
+    try {
+        const client = await pool.connect()
+        const res = await client.query({
+            text: 'insert into usuarios (nombre, balance) values ($1, $2)',
+            values: [nom, bal]
+        });
+        client.release()
+        return res.rows
+    }
+    catch(err) {
+        throw err;
+    }
+    
 };
 
 // Creamos función para realizar transferencias

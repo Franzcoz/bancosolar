@@ -26,8 +26,8 @@ app.post('/usuario', async (req, res) => {
             return res.json({msg: 'usuario agregado'});
         })
     } catch (err) {
-        // Capturamos error y lo enviamos
-        return res.status(400).send(err);
+        // Capturamos error y lo enviamos a consola
+        console.log(err);
     }
 });
 
@@ -55,7 +55,7 @@ app.get('/usuarios', async (req, res) => {
         res.send(usrs);
         return;
     } catch (err) {
-        return res.status(500).send(err);
+        return res.status(503).send(`{error: "${err}"}`);
     }
 });
 
@@ -66,7 +66,7 @@ app.get('/transferencias', async (req, res) => {
         res.send(tnsf);
         return;
     } catch (err) {
-        return res.status(500).send(err);
+        return res.status(503).send(err);
     }
 });
 
